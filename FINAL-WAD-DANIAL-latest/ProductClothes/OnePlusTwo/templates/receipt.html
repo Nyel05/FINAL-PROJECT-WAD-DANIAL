@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Receipt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .receipt-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .receipt-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 20px;
+        }
+        .logo {
+            margin-right: 20px;
+        }
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        .header-text {
+            flex: 1;
+            text-align: center;
+        }
+        .header-text h1 {
+            color: #e67e22;
+            margin: 0;
+        }
+        .order-info {
+            margin-bottom: 30px;
+        }
+        .order-info p {
+            margin: 5px 0;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .items-table th, .items-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .items-table th {
+            background-color: #f8f9fa;
+            color: #e67e22;
+        }
+        .total-section {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .print-btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #d35400;
+        }
+        @media print {
+            .print-btn {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+            .receipt-container {
+                box-shadow: none;
+            }
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .back-button:hover {
+            background-color: #555;
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'product' %}" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Back to Products
+    </a>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <div class="logo">
+                <img src="{% static 'image/Stussy-Logo.png' %}" alt="OnePlusTwo Logo">
+            </div>
+            <div class="header-text">
+                <h1>Order Receipt</h1>
+                <p>STÜSSY By DANIAL</p>
+            </div>
+        </div>
+        
+        <div class="order-info">
+            <p><strong>Order ID:</strong> #{{ order.id }}</p>
+            <p><strong>Date:</strong> {{ order.created_at|date:"F d, Y" }}</p>
+            <p><strong>Customer:</strong> {{ order.user.username }}</p>
+            <p><strong>Payment Method:</strong> {{ payment.payment_method }}</p>
+            <p><strong>Status:</strong> {{ payment.status }}</p>
+        </div>
+        
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ item.size }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>RM {{ item.price }}</td>
+                    <td>RM {{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <p><strong>Total Amount: RM {{ order.total_amount }}</strong></p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="button" class="print-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> Print Receipt
+            </button>
+        </form>
+    </div>
+</body>
+</html> 

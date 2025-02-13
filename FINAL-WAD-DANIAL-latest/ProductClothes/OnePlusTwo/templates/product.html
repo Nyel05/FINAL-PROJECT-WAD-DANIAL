@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes Store - Products</title>
+    <!-- Add Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 5px 20px; /* Increased padding for spacing */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Align items horizontally */
+        }
+        header img {
+            height: 40px; /* Set the logo size */
+        }
+        nav {
+            display: flex;
+            align-items: center; /* Align nav items vertically */
+        }
+        nav a {
+            color: rgb(0, 0, 0);
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+            padding: 5px;
+            width: 200px; /* Width of the search input */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+        }
+        .search-bar button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #333;
+        }
+
+        /* Responsive Image Slider */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            max-height: 70vh; /* Adjust slider height to 60% of viewport height */
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            height: 100%; /* Height adjusts automatically based on width */
+            object-fit: cover;
+        }
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        .slider-nav button {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .slider-nav button.active {
+            background-color: #000000;
+        }
+
+        /* Products Section */
+        .products {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        .product-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 30%;
+            margin-bottom: 20px;
+            box-shadow: 2px 2px 12px #aaa;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .product-card h3 {
+            padding: 10px;
+            margin: 0;
+        }
+        .product-card p {
+            padding: 0 10px 10px 10px;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .user-profile {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .username {
+            color: #000;
+            padding: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            right: 0;
+        }
+
+        .user-profile:hover .profile-dropdown {
+            display: block;
+        }
+
+        .profile-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-dropdown li {
+            padding: 0;
+        }
+
+        .profile-dropdown a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .cart-icon {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e67e22;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo and Navigation -->
+        <div style="display: flex; align-items: center;">
+            <a href="{% url 'index' %}" style="text-decoration: none;">
+                <img src="{% static 'image/Stussy-Logo.png' %}" alt="Store Logo" style="cursor: pointer;">
+            </a>
+            <nav>
+                {% if user %}
+                    <div class="user-profile">
+                        <span class="username">Welcome, {{ user.username }}</span>
+                        <div class="profile-dropdown">
+                            <ul>
+                                <li><a href="{% url 'profile' %}">My Profile</a></li>
+                                <li><a href="{% url 'my_orders' %}">My Orders</a></li>                                <li><a href="{% url 'signout' %}">Sign Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'register' %}">Sign In</a>
+                {% endif %}
+                <a href="{% url 'product' %}">Products</a>
+                <a href="{% url 'about' %}">About Us</a>                
+                <a href="{% url 'contact' %}">Contact</a>           
+             </nav>
+        </div>
+
+        <!-- Search Bar on the Top-Right -->
+        <div class="search-bar">
+            <form method="GET" action="{% url 'search' %}" style="display: flex; align-items: center;">
+                <input type="text" name="query" placeholder="Search products..." value="{{ request.GET.query }}"/>
+                <button type="submit">Search</button>
+                <a href="{% url 'cart' %}" class="cart-icon">
+                    <i class="fas fa-shopping-cart" style="font-size: 24px; margin-left: 15px; color: #000;"></i>
+                    {% if cart_count %}
+                        <span class="cart-count">{{ cart_count }}</span>
+                    {% endif %}
+                </a>
+            </form>
+        </div>
+    </header>
+
+    <!-- Responsive Image Slider -->
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <img class="slide" src="{% static 'image/slider 1.jpg' %}" alt="Slide 1">
+            <img class="slide" src="{% static 'image/slider 6.jpg' %}" alt="Slide 2">
+            <img class="slide" src="{% static 'image/slider 3.jpeg' %}" alt="Slide 3">
+        </div>
+        <div class="slider-nav">
+            <button class="active" onclick="changeSlide(0)"></button>
+            <button onclick="changeSlide(1)"></button>
+            <button onclick="changeSlide(2)"></button>
+        </div>
+    </div>
+
+    <div class="products">
+        {% for product in products %}
+        <div class="product-card" onclick="window.location.href='{% url 'product_detail' product.id %}'">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'image/default-product.jpg' %}" alt="{{ product.name }}">
+            {% endif %}
+            <h3>{{ product.name }}</h3>
+            <p>RM {{ product.price }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <footer>
+        <p>&copy; 2025 Stussy by DANIAL. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function changeSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Update active button
+            const buttons = document.querySelectorAll('.slider-nav button');
+            buttons.forEach((button, index) => {
+                button.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Auto-play slider every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes Store - Home</title>
+    <!-- Add Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center; /* Align items vertically */
+        }
+        header img {
+            height: 40px; /* Set the logo size */
+            margin-right: 10px; /* Add spacing between logo and nav */
+        }
+        nav {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        nav a {
+            color: rgb(0, 0, 0);
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .hero {
+            background-image: url("{% static 'image/wallpaper.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 20px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+       
+        footer {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .user-profile {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .username {
+            color: #000;
+            padding: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            right: 0;
+        }
+
+        .user-profile:hover .profile-dropdown {
+            display: block;
+        }
+
+        .profile-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-dropdown li {
+            padding: 0;
+        }
+
+        .profile-dropdown a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .video-section {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .video-section h2 {
+            font-size: 36px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container {
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo and Navigation -->
+        <div style="display: flex; align-items: center;">
+            <img src="{% static 'image/Stussy-Logo.png' %}" alt="Store Logo">
+            <nav>
+                {% if user %}
+                    <div class="user-profile">
+                        <span class="username">Welcome, {{ user.username }}</span>
+                        <div class="profile-dropdown">
+                            <ul>
+                                <li><a href="{% url 'profile' %}">My Profile</a></li>
+                                <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                                <li><a href="{% url 'signout' %}">Sign Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'register' %}">Sign In</a>
+                {% endif %}
+                <a href="{% url 'product' %}">Products</a>
+                <a href="{% url 'about' %}">About Us</a>                
+                <a href="{% url 'contact' %}">Contact</a>           
+             </nav>
+        </div>
+    </header>
+    <div class="hero">
+        <div class="video-section">
+            <h2>STÜSSY, REPRESENTING</h2>
+            <div class="video-container">
+                <iframe 
+                    width="860" 
+                    height="515" 
+                    src="https://www.youtube.com/embed/L0VF5eW9GyM?si=JKlpqRD8121f_cf8"
+                    title="Stussy Collection Video"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Stussy by DANIAL. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

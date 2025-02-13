@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Stussy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-header h1 {
+            font-size: 2.5em;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-image-container {
+            position: relative;
+            width: 65%;
+            max-width: 500px;
+            height: 500px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: opacity 0.3s ease;
+            object-fit: cover;
+        }
+
+        .main-image {
+            opacity: 1;
+        }
+
+        .hover-image {
+            opacity: 0;
+        }
+
+        .about-image-container:hover .main-image {
+            opacity: 0;
+        }
+
+        .about-image-container:hover .hover-image {
+            opacity: 1;
+        }
+
+        .about-text {
+            line-height: 1.8;
+        }
+
+        .about-text h2 {
+            color: #e67e22;
+            margin-bottom: 20px;
+        }
+
+        .values-section {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-card i {
+            font-size: 2em;
+            color: #e67e22;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'index' %}" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </a>
+
+    <div class="about-container">
+        <div class="about-header">
+            <h1>STÜSSY By DANIAL</h1>
+        </div>
+
+        <div class="about-content">
+            <div class="about-image-container">
+                <img src="{% static 'image/logo 3.jpg' %}" alt="About Stussy" class="about-image main-image">
+                <img src="{% static 'image/founder.jpg' %}" alt="About Stussy Alternate" class="about-image hover-image">
+            </div>
+            <div class="about-text">
+                <h2>Our Founder</h2>
+                <p>Introducing DANIAL HAKIM, the founder of STÜSSY.</p>
+                <h2>Our Story</h2>
+                <p>Founded in 2025, Stussy has been at the forefront of streetwear fashion, delivering premium quality clothing that combines style, comfort, and urban culture.</p>
+                <p>Our mission is to provide authentic streetwear that empowers individuals to express their unique style while maintaining the highest standards of quality and sustainability.</p>
+            </div>
+        </div>
+
+        <div class="values-section">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Quality</h3>
+                    <p>We never compromise on the quality of our products</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Passion</h3>
+                    <p>Our love for fashion drives everything we do</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Sustainability</h3>
+                    <p>Committed to eco-friendly practices</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
